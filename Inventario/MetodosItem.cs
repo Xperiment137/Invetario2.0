@@ -78,6 +78,7 @@ public class MetodosItem : MonoBehaviour
             inv.dato = nombre;
             inv.dato1 = img;
             inv.dato2 = id;
+            inv.dato3 = 1;
             Destroy(gameObject);
 
         }
