@@ -8,6 +8,7 @@ public class MetodosItem : MonoBehaviour
 {
     public Collider colider;
     public string mensaje = "Pulsa E para cogerlo";
+    private string mensaje2;
     public bool activo = false;
     public GUIStyle font;
     public bool destruido = false;
@@ -34,8 +35,7 @@ public class MetodosItem : MonoBehaviour
 }
     void Update()
     {
-  
-        
+      
         if (Input.GetKeyDown(KeyCode.E))
         {
 
@@ -50,6 +50,7 @@ public class MetodosItem : MonoBehaviour
         }
         else
         {
+
             colider.isTrigger = false;
 
         }
@@ -62,9 +63,10 @@ public class MetodosItem : MonoBehaviour
         if (activo)
         {
 
-
-
-            GUI.Label(new Rect(Screen.width / 2 - 100, 50, 200, 30), mensaje, font);
+            font.fontSize = 50;
+            font.normal.textColor = Color.red;
+            GUI.Label(new Rect(Screen.width / 2 - 200, 300, 200, 500), mensaje2, font);
+            GUI.Label(new Rect(Screen.width / 2 - 200, 50, 200, 30), mensaje, font);
         }
 
     }
@@ -73,13 +75,20 @@ public class MetodosItem : MonoBehaviour
     {
         if (col.gameObject.tag == "Player")
         {
-            recogido = true;
-            inv.guardar = recogido;
-            inv.dato = nombre;
-            inv.dato1 = img;
-            inv.dato2 = id;
-            inv.dato3 = 1;
-            Destroy(gameObject);
+            if (inv.esguardar)
+            {
+                recogido = true;
+                inv.guardar = recogido;
+                inv.dato = nombre;
+                inv.dato1 = img;
+                inv.dato2 = id;
+                inv.dato3 = 1;
+                Destroy(gameObject);
+            }
+            else
+            {
+                 mensaje2 = "Inventario lleno";
+            }
 
         }
       
@@ -93,6 +102,7 @@ public class MetodosItem : MonoBehaviour
     {
         if (col.gameObject.tag == "Player")
         {
+            mensaje = "Pulsa E para cogerlo";
             activo = true;
         }
 

@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 
 public class Inventario : MonoBehaviour {
-    public Inventario it2;
     public string dato;
     public string dato1;
     public int dato2;
@@ -16,7 +15,15 @@ public class Inventario : MonoBehaviour {
     public int id;
     public int cantidad;
     public bool guardar = false;
-    private int contador = 0;
+    public bool esguardar = false;
+    private bool activo = false;
+    public GUIStyle font;
+    public string mensaje = "No puedo borrar algo que no existe";
+    public Text tex1;
+    public Text tex2;
+    public Text tex3;
+    public Text tex4;
+    public Text tex5;
     List<Inventario> Invs= new List<Inventario>(5);
     public GameObject aux;
    
@@ -35,7 +42,10 @@ public class Inventario : MonoBehaviour {
 
     void Update()
     {
-      
+        
+        if (Invs.Count < 5)
+        {
+            esguardar = true;
             if (guardar)
             {
 
@@ -43,6 +53,11 @@ public class Inventario : MonoBehaviour {
                 guardar = false;
 
             }
+        }
+        else
+        {
+            esguardar = false;
+        }
         
        
         if (Input.GetKeyDown(KeyCode.T))
@@ -59,14 +74,16 @@ public class Inventario : MonoBehaviour {
 
 
                 PauseGame();
-                ver();
-                Debug.Log(Invs.Count);
+                
+             
 
 
             }
         }
-    
-    }
+       
+
+
+        }
 
      
             
@@ -82,11 +99,7 @@ public class Inventario : MonoBehaviour {
             Invs.Add(new Inventario() { nombre = dato, img = dato1, id = dato2, cantidad = dato3 });
         }
 
-        if (Invs.Count == 2)
-        {
-
-            Debug.Log("Inventario lleno");
-        }
+        
 
     
 
@@ -102,8 +115,29 @@ public class Inventario : MonoBehaviour {
 
         }
     }
+    public void Borrar(int identidad)
+    {
+        if (Invs.Exists(x => x.id == identidad))
+        {
+            Invs.RemoveAt(Invs.FindIndex(x => x.id == identidad));
+        }
+        else
+        {
+            activo = true;
+          
+        }
+        
+    }
+    public void Mostar()
+    {
     
-  
+        tex1.text = Invs[0].name;
+        tex2.text = Invs[1].name;
+        tex3.text = Invs[2].name;
+        tex4.text = Invs[3].name;
+        tex5.text = Invs[4].name;
+
+    }
         private void PauseGame()
         {
             Time.timeScale = 0;
@@ -117,5 +151,17 @@ public class Inventario : MonoBehaviour {
             aux.SetActive(false);
             
         }
-    
+    void OnGUI()
+    {
+
+        if (activo)
+        {
+
+
+
+            GUI.Label(new Rect(Screen.width / 2 - 100, 100, 200, 50), mensaje, font);
+        }
+
+    }
+
 }
