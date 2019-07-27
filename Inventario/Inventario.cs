@@ -28,7 +28,7 @@ public class Inventario : MonoBehaviour {
     
     void Awake()
     {
-         
+        
         aux = GameObject.Find("pausePanel");
         
     }
@@ -75,6 +75,7 @@ public class Inventario : MonoBehaviour {
                 PauseGame();
                 Mostar();
                 pulsador();
+                ver();
                 Cursor.visible = true;
 
 
@@ -166,6 +167,38 @@ public class Inventario : MonoBehaviour {
                 }
 
             }
+            int c = Invs.Count;
+            for (; c < 5; c++)
+            {
+                switch (i)
+                {
+                  
+                    case 1:
+                        tex1.text = "Vacio";
+                        tex2.text = "Vacio";
+                        tex3.text = "Vacio";
+                        tex4.text = "Vacio";
+                        break;
+                    case 2:
+                       
+                        tex2.text = "Vacio";
+                        tex3.text = "Vacio";
+                        tex4.text = "Vacio";
+                        break;
+                    case 3:
+                        
+                        tex3.text = "Vacio";
+                        tex4.text = "Vacio";
+                        break;
+                    case 4:
+                        
+                        tex4.text = "Vacio";
+                        break;
+                    default:
+
+                        break;
+                }
+            }
         }
         else
         {
@@ -203,14 +236,16 @@ public class Inventario : MonoBehaviour {
                     break;
                     case 4:
                     Borrar(Invs[j].id);
-                    tex4.text = "Vacio"; ;
+                    tex4.text = "Vacio"; 
                     break;
                     default:
                     activo = true;
                     break;
-
+             
 
                 }
+            Mostar();
+            
             
         }
         else
@@ -251,8 +286,9 @@ public class Inventario : MonoBehaviour {
         {
 
 
-
-            GUI.Label(new Rect(Screen.width / 2 - 100, 100, 200, 50), mensaje, font);
+            font.fontSize = 24;
+            font.normal.textColor = Color.red;
+            GUI.Label(new Rect(Screen.width / 2 - 200, 100, 200, 50), mensaje, font);
         }
 
     }
