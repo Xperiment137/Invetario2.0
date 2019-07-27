@@ -5,6 +5,7 @@ using System;
 using UnityEngine.UI;
 
 
+
 public class Inventario : MonoBehaviour {
     public string dato;
     public string dato1;
@@ -19,11 +20,8 @@ public class Inventario : MonoBehaviour {
     private bool activo = false;
     public GUIStyle font;
     public string mensaje = "No puedo borrar algo que no existe";
-    public Text tex1;
-    public Text tex2;
-    public Text tex3;
-    public Text tex4;
-    public Text tex5;
+    public Text tex,tex1,tex2,tex3,tex4;
+    public Button boton, boton1, boton2, boton3, boton4;
     List<Inventario> Invs= new List<Inventario>(5);
     public GameObject aux;
    
@@ -42,6 +40,7 @@ public class Inventario : MonoBehaviour {
 
     void Update()
     {
+
         
         if (Invs.Count < 5)
         {
@@ -66,16 +65,17 @@ public class Inventario : MonoBehaviour {
             {
 
                 ContinueGame();
-
-
+                Cursor.visible = false;
+                activo = false;
             }
             else
             {
 
 
                 PauseGame();
-                
-             
+                Mostar();
+                pulsador();
+                Cursor.visible = true;
 
 
             }
@@ -93,10 +93,12 @@ public class Inventario : MonoBehaviour {
         if (Invs.Exists(x => x.id == dato2))
         {
             Invs[Invs.FindIndex(x => x.id == dato2)].cantidad++;
+           
         }
         else
         {
             Invs.Add(new Inventario() { nombre = dato, img = dato1, id = dato2, cantidad = dato3 });
+
         }
 
         
@@ -117,28 +119,119 @@ public class Inventario : MonoBehaviour {
     }
     public void Borrar(int identidad)
     {
-        if (Invs.Exists(x => x.id == identidad))
-        {
+      
+           
             Invs.RemoveAt(Invs.FindIndex(x => x.id == identidad));
-        }
-        else
-        {
-            activo = true;
-          
-        }
+           
+        
+        
+           
         
     }
     public void Mostar()
     {
-    
-        tex1.text = Invs[0].name;
-        tex2.text = Invs[1].name;
-        tex3.text = Invs[2].name;
-        tex4.text = Invs[3].name;
-        tex5.text = Invs[4].name;
+        int i;
 
+        if (Invs.Count > 0)
+        {
+
+            for (i = 0; i < Invs.Count; i++)
+            {
+                if (Invs.Contains(Invs[i]))
+                {
+                    
+                    switch (i)
+                    {
+                        case 0:
+                            tex.text = Invs[i].nombre;
+                            break;
+                        case 1:
+                            tex1.text = Invs[i].nombre;
+                            break;
+                        case 2:
+                            tex2.text = Invs[i].nombre;
+                            break;
+                        case 3:
+                            tex3.text = Invs[i].nombre;
+                            break;
+                        case 4:
+                            tex4.text = Invs[i].nombre;
+                            break;
+                        default:
+
+                            break;
+
+                    }
+
+                }
+
+            }
+        }
+        else
+        {
+            tex.text = "Vacio";
+            tex1.text = "Vacio";
+            tex2.text = "Vacio";
+            tex3.text = "Vacio";
+            tex4.text = "Vacio";
+        }
     }
-        private void PauseGame()
+ 
+        private void botones(int j)
+    {
+ 
+        if(j<Invs.Count)
+        {
+        
+                switch (j)
+                {
+                    case 0:
+                    Borrar(Invs[j].id);
+                    tex.text = "Vacio";
+                    break;
+                    case 1:
+                    Borrar(Invs[j].id);
+                    tex1.text = "Vacio";
+                    break;
+                    case 2:
+                    Borrar(Invs[j].id);
+                    tex2.text = "Vacio";
+                    break;
+                    case 3:
+                     Borrar(Invs[j].id);
+                    tex3.text = "Vacio";
+                    break;
+                    case 4:
+                    Borrar(Invs[j].id);
+                    tex4.text = "Vacio"; ;
+                    break;
+                    default:
+                    activo = true;
+                    break;
+
+
+                }
+            
+        }
+        else
+        {
+            activo = true;
+        }
+   }
+     private void pulsador()
+    {
+        
+        boton.onClick.AddListener(() => botones(0));
+        boton1.onClick.AddListener(() => botones(1));
+        boton2.onClick.AddListener(() => botones(2));
+        boton3.onClick.AddListener(() => botones(3));
+        boton4.onClick.AddListener(() => botones(4));
+       
+    }
+
+
+
+    private void PauseGame()
         {
             Time.timeScale = 0;
           aux.SetActive(true);
